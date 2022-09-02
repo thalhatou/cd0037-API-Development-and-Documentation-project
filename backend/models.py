@@ -2,12 +2,18 @@ import os
 from sqlalchemy import Column, String, Integer, create_engine
 from flask_sqlalchemy import SQLAlchemy
 import json
+SECRET_KEY = os.urandom(32)
+# Grabs the folder where the script runs.
+basedir = os.path.abspath(os.path.dirname(__file__))
 
-database_name = 'trivia'
-database_password = '7y8a1h64'
-database_user = 'postgres'
-database_path = 'postgresql://{}/{}'.format('localhost:5432',database_user,database_password
-, database_name)
+
+DB_HOST = os.getenv('DB_HOST', 'localhost')
+DB_PORT=  os.getenv('DB_PORT',5432)
+DB_USER = os.getenv('DB_USER', 'postgres')
+DB_PASSWORD = os.getenv('DB_PASSWORD', '7y8a1h64')
+DB_NAME = os.getenv('DB_NAME', 'trivia')
+
+DATABASE_URI = "postgresql://{}:{}@{}:{}/{}".format(DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME)
 
 db = SQLAlchemy()
 
@@ -15,8 +21,8 @@ db = SQLAlchemy()
 setup_db(app)
     binds a flask application and a SQLAlchemy service
 """
-def setup_db(app, database_path=database_path):
-    app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+def setup_db(app, DATABASE_URI=DATABASE_URI):
+    app.config["SQLALCHEMY_DATABASE_URI"] =DATABASE_URI
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
