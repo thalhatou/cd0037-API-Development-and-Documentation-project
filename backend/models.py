@@ -13,7 +13,7 @@ DB_USER = os.getenv('DB_USER', 'postgres')
 DB_PASSWORD = os.getenv('DB_PASSWORD', '7y8a1h64')
 DB_NAME = os.getenv('DB_NAME', 'trivia')
 
-DATABASE_URI = "postgresql://{}:{}@{}:{}/{}".format(DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME)
+DATABASE_PATH = "postgresql://{}:{}@{}:{}/{}".format(DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME)
 
 db = SQLAlchemy()
 
@@ -21,8 +21,8 @@ db = SQLAlchemy()
 setup_db(app)
     binds a flask application and a SQLAlchemy service
 """
-def setup_db(app, DATABASE_URI=DATABASE_URI):
-    app.config["SQLALCHEMY_DATABASE_URI"] =DATABASE_URI
+def setup_db(app, DATABASE_PATH=DATABASE_PATH):
+    app.config["SQLALCHEMY_DATABASE_URI"] =DATABASE_PATH
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
