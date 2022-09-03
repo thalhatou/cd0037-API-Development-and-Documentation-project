@@ -134,8 +134,8 @@ def create_app(test_config=None):
 #Create a GET endpoint to get questions based on category.
     @app.route("/categories/<int:id>/questions", methods=["GET"])
     def questionsByCategory(id):
-        category_id = Category.query.get_or_404(id)
-        All_questions = Question.query.filter_by(category_id = id).order_by(Question.id).all()
+        category = Category.query.get_or_404(id)
+        All_questions = Question.query.filter_by(category = id).order_by(Question.id).all()
         questions = paginate_questions(request, All_questions)
 
         if len(questions) == 0:

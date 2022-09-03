@@ -67,28 +67,297 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 8. Create a `POST` endpoint to get questions to play the quiz. This endpoint should take a category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions.
 9. Create error handlers for all expected errors including 400, 404, 422, and 500.
 
-## Documenting your Endpoints
+## API Reference
 
-You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
+### Getting Started
 
-### Documentation Example
+- Base URL: This app can only be run locally and is not hosted as a base URL. The backend app is hosted at the default, `http://127.0.0.1:5000/`, which is set as a proxy in the frontend configuration.
+- Authentication: This version of the application does not require authentication or API keys.
 
-`GET '/api/v1.0/categories'`
+### Endpoints
+
+`GET '/categories'`
 
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
-- Returns: An object with a single key, `categories`, that contains an object of `id: category_string` key: value pairs.
+- Returns: An object with a single key, categories, that contains an object of {id: category_string} {key: value} pairs.
+- Sample: `curl http://127.0.0.1:5000/categories`
 
 ```json
 {
-  "1": "Science",
-  "2": "Art",
-  "3": "Geography",
-  "4": "History",
-  "5": "Entertainment",
-  "6": "Sports"
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "success": true,
+  "total_categories": 6
 }
 ```
+
+`GET '/categories/${id}/questions'`
+
+- Fetches questions for a cateogry specified by id request argument
+- Request Arguments: `id` - integer
+- Returns: An object with questions for the specified category, total questions, and current category string
+- Sample: `curl http://127.0.0.1:5000/categories/2/questions`
+
+```json
+{
+    "current_category": "Art",
+    "questions": [
+        {
+            "answer": "Escher",
+            "category": 2,
+            "difficulty": 1,
+            "id": 16,
+            "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?"
+        },
+        {
+            "answer": "Mona Lisa",
+            "category": 2,
+            "difficulty": 3,
+            "id": 17,
+            "question": "La Giaconda is better known as what?"
+        },
+        {
+            "answer": "One",
+            "category": 2,
+            "difficulty": 4,
+            "id": 18,
+            "question": "How many paintings did Van Gogh sell in his lifetime?"
+        },
+        {
+            "answer": "Jackson Pollock",
+            "category": 2,
+            "difficulty": 2,
+            "id": 19,
+            "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+        }
+    ],
+    "success": true,
+    "total_questions": 4
+}
+```
+
+`GET '/questions?page=${integer}'`
+
+- Fetches a paginated set of questions, a total number of questions, all categories and current category string.
+- Request Arguments: `page` - integer
+- Returns: An object with 10 paginated questions, total questions, object including all categories, and current category string
+- Sample: `curl http://127.0.0.1:5000/questions?page=2`
+
+```json
+{
+    "categories": {
+        "1": "Science",
+        "2": "Art",
+        "3": "Geography",
+        "4": "History",
+        "5": "Entertainment",
+        "6": "Sports"
+    },
+    "current_category": null,
+    "questions": [
+        {
+            "answer": "Escher",
+            "category": 2,
+            "difficulty": 1,
+            "id": 16,
+            "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?"
+        },
+        {
+            "answer": "Mona Lisa",
+            "category": 2,
+            "difficulty": 3,
+            "id": 17,
+            "question": "La Giaconda is better known as what?"
+        },
+        {
+            "answer": "One",
+            "category": 2,
+            "difficulty": 4,
+            "id": 18,
+            "question": "How many paintings did Van Gogh sell in his lifetime?"
+        },
+        {
+            "answer": "Jackson Pollock",
+            "category": 2,
+            "difficulty": 2,
+            "id": 19,
+            "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+        },
+        {
+            "answer": "The Liver",
+            "category": 1,
+            "difficulty": 4,
+            "id": 20,
+            "question": "What is the heaviest organ in the human body?"
+        },
+        {
+            "answer": "Alexander Fleming",
+            "category": 1,
+            "difficulty": 3,
+            "id": 21,
+            "question": "Who discovered penicillin?"
+        },
+        {
+            "answer": "Blood",
+            "category": 1,
+            "difficulty": 4,
+            "id": 22,
+            "question": "Hematology is a branch of medicine involving the study of what?"
+        },
+        {
+            "answer": "Scarab",
+            "category": 4,
+            "difficulty": 4,
+            "id": 23,
+            "question": "Which dung beetle was worshipped by the ancient Egyptians?"
+        },
+        {
+            "answer": "25",
+            "category": 4,
+            "difficulty": 1,
+            "id": 24,
+            "question": "How old are you "
+        },
+        {
+            "answer": "25",
+            "category": 4,
+            "difficulty": 1,
+            "id": 25,
+            "question": "How old are you "
+        }
+    ],
+    "success": true,
+    "total_questions": 21
+}
+```
+
+`POST '/questions'`
+
+- Sends a post request in order to create a new question
+- Sample: `curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"question": "What's the capital of cameroon?", "answer": "Yaounde", "category": 4, "difficulty": 2}'`
+
+- Request Body:
+
+```json
+{
+  "question": "What's the capital of cameroon?",
+  "answer": "Yaounde",
+  "category": 4,
+  "difficulty": 2
+}
+```
+
+- Returns: a single new question object
+
+```json
+{
+  "success": true,
+  "created": 2,
+}
+```
+
+`POST '/questions/search'`
+
+- Sends a post request in order to get the get questions based on a search term which is a substring of the question
+- Sample: `curl http://127.0.0.1:5000/questions/search -X POST -H "Content-Type: application/json" -d '{"searchTerm": "human"}'`
+
+- Request Body:
+
+```json
+{
+  "search_term": "Giaconda"
+}
+```
+
+- Returns: all matching list of questions
+
+```json
+{
+  "current_category": "Art",
+  "questions": [
+    {
+      "answer": "Mona Lisa",
+      "category": 2,
+      "difficulty": 3,
+      "id": 17,
+      "question": "La Giaconda is better known as what?"
+    }
+  ],
+  "success": true,
+  "total_questions": 1
+}
+```
+
+`DELETE '/questions/${id}'`
+
+- Deletes a specified question using the id of the question
+- Request Arguments: `id` - integer
+- Returns: the appropriate HTTP status code and the id of the question
+- Sample: `curl -X DELETE http://127.0.0.1:5000/questions/8`
+
+```json
+{
+  "success": true,
+  "deleted": 8,
+}
+```
+
+`POST '/quizzes'`
+
+- Sends a post request in order to get the next question
+- Sample: `curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions": [1, 4, 20, 15], "quiz_category": {"id": 2, "type": "Art"}}'`
+
+- Request Body:
+
+```json
+{
+  "previous_questions": [1, 4, 20, 15],
+  "quiz_category": {"id": 2, "type": "Art"}
+}
+```
+
+- Returns: a single new question object
+
+```json
+{
+  "success": true,
+  "questions": [
+    {
+            "answer": "Escher",
+            "category": 2,
+            "difficulty": 1,
+            "id": 16,
+            "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?"
+        },
+  ]
+}
+```
+
+### Error Handling
+
+Errors are returned as JSON objects in the following format:
+
+```json
+{
+  "success": false,
+  "error": 404,
+  "message": "Resource Not Found"
+}
+```
+
+The API will return three error types when requests fail:
+- 400: Bad Request
+- 404: Resource Not Found
+- 405: Method Not Allowed
+- 422: Not Processable
+- 500: Internal Server Error
 
 ## Testing
 
