@@ -48,15 +48,33 @@ class Question(db.Model):
         self.difficulty = difficulty
 
     def insert(self):
-        db.session.add(self)
-        db.session.commit()
+        status = True
+        id = None
+        try:
+            db.session.add(self)
+            db.session.commit()
+            id = self.id
+        except:
+            db.session.rollback()
+            status = False
+        finally:
+            db.session.close()
+        return {"status": status, "id": id}
 
     def update(self):
         db.session.commit()
 
     def delete(self):
-        db.session.delete(self)
-        db.session.commit()
+        status = True
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except:
+            db.session.rollback()
+            status = False
+        finally:
+            db.session.close()
+        return status
 
     def format(self):
         return {

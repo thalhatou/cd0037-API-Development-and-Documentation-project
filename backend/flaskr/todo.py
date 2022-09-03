@@ -15,7 +15,7 @@
 
 
 """
-    @TODO:
+    DONE:
     Create an endpoint to handle GET requests for questions,
     including pagination (every 10 questions).
     This endpoint should return a list of questions,
@@ -28,7 +28,7 @@
     """
 
 """
-    @TODO:
+    DONE:
     Create an endpoint to DELETE question using a question ID.
 
     TEST: When you click the trash icon next to a question, the question will be removed.
@@ -36,7 +36,7 @@
     """
 
 """
-    @TODO:
+    DONE:
     Create an endpoint to POST a new question,
     which will require the question and answer text,
     category, and difficulty score.
@@ -47,7 +47,7 @@
     """
 
 """
-    @TODO:
+    DONE:
     Create a POST endpoint to get questions based on a search term.
     It should return any questions for whom the search term
     is a substring of the question.
@@ -58,7 +58,7 @@
     """
 
 """
-    @TODO:
+    DONE:
     Create a GET endpoint to get questions based on category.
 
     TEST: In the "List" tab / main screen, clicking on one of the
@@ -67,7 +67,7 @@
     """
 
 """
-    @TODO:
+    DONE:
     Create a POST endpoint to get questions to play the quiz.
     This endpoint should take category and previous question parameters
     and return a random questions within the given category,
@@ -79,7 +79,7 @@
     """
 
 """
-    @TODO:
+    DONE:
     Create error handlers for all expected errors
     including 404 and 422.
     """
