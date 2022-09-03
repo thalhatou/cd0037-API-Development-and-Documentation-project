@@ -189,7 +189,11 @@ def create_app(test_config=None):
 
 
 # Create error handlers for all expected errors
-
+# 400: Bad Request
+# 404: Resource Not Found
+# 405: Method Not Allowed
+# 422: Not Processable
+# 500: Internal Server Error
     @app.errorhandler(400)
     def badRequest(error):
         return (
